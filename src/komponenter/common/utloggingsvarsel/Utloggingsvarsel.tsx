@@ -5,6 +5,7 @@ import Veilederpanel from 'nav-frontend-veilederpanel';
 import Veilederen from 'ikoner/varsler/Veiledervarsel';
 import './utloggingsvarsel.less';
 import { getSelvbetjeningIdtoken, parseJwt } from './token.utils';
+import { checkTimeStampAndSetTimeStamp } from './timestamp.utils';
 
 interface Props {}
 
@@ -12,31 +13,21 @@ const Utloggingsvarsel: FunctionComponent<Props> = (props) => {
     const cls = BEMHelper('utloggingsvarsel');
 
     const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [unitTimeStamp, setUnixTimestamp] = useState<number>(0);
     const toggleModal = () => setModalOpen((prevState) => !prevState);
 
     useEffect(() => {
         const token = getSelvbetjeningIdtoken();
-        const timeout = (time: number) =>
-            setTimeout(() => {
-                console.log('time out...');
-            }, time);
+
         if (token) {
             try {
                 const jwt = parseJwt(token);
                 const timestamp = jwt['exp'];
-                const currentTimestamp = new Date().getTime() / 1000;
-
-                console.log(jwt);
-                console.log('exp', timestamp);
-
-                const date = new Date(timestamp * 1000);
-                console.log('date: ', date);
-                const formattedTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-
-                console.log(formattedTime, '|||', currentTimestamp);
-                console.log('sum: ', timestamp - currentTimestamp);
-            } catch (e) {
-                console.log(e);
+                if (timestamp) {
+                    checkTimeStampAndSetTimeStamp(timestamp, setModalOpen, setUnixTimestamp);
+                }
+            } catch (err) {
+                console.log(err);
             }
         }
     }, []);

@@ -7,7 +7,7 @@ export const getSelvbetjeningIdtoken = (): string | undefined => {
     return undefined;
 };
 
-const b64DecodeUnicode = (base64: string) => {
+const b64DecodeUnicode = (base64: string): string => {
     return decodeURIComponent(
         atob(base64)
             .split('')
