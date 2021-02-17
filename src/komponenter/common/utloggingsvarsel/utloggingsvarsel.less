@@ -1,0 +1,24 @@
+@import (reference) '../../../styling-variabler.less';
+
+.utloggingsvarsel {
+    &__modal {
+        min-width: 20rem;
+        min-height: 15rem;
+    }
+
+    &__container {
+        width: calc(100% - 2rem);
+        height: 100%;
+        padding: 1.5rem 0.5rem 1.5rem 1.5rem;
+
+        .nav-veileder.nav-veileder--flytende {
+            height: 70%;
+        }
+    }
+
+    @media @screen-desktop {
+        &__modal {
+            min-width: 40rem;
+        }
+    }
+}
