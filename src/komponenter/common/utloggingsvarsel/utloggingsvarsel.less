@@ -3,22 +3,80 @@
 .utloggingsvarsel {
     &__modal {
         min-width: 20rem;
-        min-height: 15rem;
+        max-width: 39rem;
+        section {
+            height: 100%;
+        }
     }
 
     &__container {
-        width: calc(100% - 2rem);
+        width: calc(100% - 0rem);
         height: 100%;
-        padding: 1.5rem 0.5rem 1.5rem 1.5rem;
+        padding: 0 0.5rem 1.5rem 1.5rem;
 
+        .nav-veilederpanel.nav-veilederpanel--advarsel {
+            padding: 0.25rem 1rem;
+        }
         .nav-veileder.nav-veileder--flytende {
-            height: 70%;
+            position: unset;
+        }
+        .nav-veilederpanel__content {
+            padding-left: 1rem;
+            & > .typo-element {
+                font-weight: 600;
+            }
+        }
+    }
+
+    &__heading {
+        display: flex;
+        align-items: center;
+    }
+
+    &__valg {
+        display: flex;
+        margin: 2.25rem 0 1.25rem 0;
+        flex-direction: column;
+        &:nth-child(0) {
+            margin-right: 0.5rem;
+        }
+    }
+
+    &__navigasjon {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 1.25rem;
+
+        & > button {
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            margin: 0;
+            border: none;
+            &:hover {
+                box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+                outline: 1px solid #7a7a7a;
+            }
+        }
+
+        button.utloggingsvarsel__minimere {
+            margin-right: 0.125rem;
         }
     }
 
     @media @screen-desktop {
         &__modal {
-            min-width: 40rem;
+            min-width: 35rem;
+        }
+
+        &__valg {
+            flex-direction: row;
+            & > button.knapp.knapp--hoved {
+                margin-right: 1.5rem;
+            }
         }
     }
 }
