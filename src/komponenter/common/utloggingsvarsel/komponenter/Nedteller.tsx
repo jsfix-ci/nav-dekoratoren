@@ -1,13 +1,27 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { getCurrentTimeStamp, timeStampIkkeUtgatt } from './timestamp.utils';
-import { Ingress } from 'nav-frontend-typografi';
+import TypografiBase from 'nav-frontend-typografi';
+
+export type TypografiTypes =
+    | 'sidetittel'
+    | 'innholdstittel'
+    | 'systemtittel'
+    | 'undertittel'
+    | 'ingress'
+    | 'element'
+    | 'feilmelding'
+    | 'normaltekst'
+    | 'undertekstBold'
+    | 'undertekst';
 
 interface Props {
     timestamp: number;
+    typoGrafi: TypografiTypes;
+    visTekst?: boolean;
 }
-
 const Nedteller: FunctionComponent<Props> = (props) => {
     const [tidIgjen, setTidIgjen] = useState<string>('');
+    const tekst = props.visTekst ? 'Tid igjen av sesjonen:' : '';
     useEffect(() => {
         if (timeStampIkkeUtgatt(props.timestamp - getCurrentTimeStamp())) {
             const timeleft = setInterval(() => {
@@ -17,14 +31,14 @@ const Nedteller: FunctionComponent<Props> = (props) => {
                 }
                 const min = Math.floor(tokenExpire / 60);
                 const sek = Math.floor(tokenExpire % 60);
-                setTidIgjen(`Tid igjen av sesjonen: 00t:${min}m:${sek}s`);
+                setTidIgjen(`${tekst} 00t:${min}m:${sek}s`);
             }, 1000);
         }
     }, [props.timestamp]);
 
     return (
         <div>
-            <Ingress>{tidIgjen}</Ingress>
+            <TypografiBase type={props.typoGrafi}>{tidIgjen}</TypografiBase>
         </div>
     );
 };
