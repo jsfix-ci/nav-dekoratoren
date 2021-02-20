@@ -9,7 +9,7 @@ import Utloggingsvarsel from '../common/utloggingsvarsel/Utloggingsvarsel';
 const Footer = () => {
     const { PARAMS } = useSelector((state: AppState) => state.environment);
     return (
-        <div id="decorator-wrapper-footer" className={'decorator-wrapper'}>
+        <div className={'decorator-wrapper'}>
             <Utloggingsvarsel />
             <footer id="sitefooter" className="sitefooter">
                 {PARAMS.SIMPLE || PARAMS.SIMPLE_FOOTER ? <SimpleFooter /> : <FooterRegular />}
