@@ -10,7 +10,7 @@ import { checkTimeStampAndSetTimeStamp } from './timestamp.utils';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import UtloggingNavigasjon from './komponenter/UtloggingNavigasjon';
 import Nedteller from './komponenter/Nedteller';
-import UtloggingsvarselValg from './UtloggingsvarselValg';
+import UtloggingsvarselValg from './komponenter/UtloggingsvarselValg';
 import Ekspanderbartvindu from './komponenter/Ekspanderbartvindu';
 
 const Utloggingsvarsel: FunctionComponent = () => {
@@ -19,7 +19,7 @@ const Utloggingsvarsel: FunctionComponent = () => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [unitTimeStamp, setUnixTimestamp] = useState<number>(0);
     const [minimized, setMinimized] = useState<boolean>(false);
-    const setOpenClsName = (): string => (minimized ? '' : '--open');
+    const setOpenClsName = (): string => (minimized ? '' : 'open');
     const toggleModal = (): void => setModalOpen((prevState) => !prevState);
     const modalMountPoint = (): HTMLElement => document.getElementById('utloggingsvarsel') ?? document.body;
 
@@ -42,8 +42,7 @@ const Utloggingsvarsel: FunctionComponent = () => {
     }, []);
 
     return (
-        <div id="utloggingsvarsel" className={cls.className + `${setOpenClsName()}`}>
-            {/*<button onClick={toggleModal}>TEST MODAL BUTTON</button>*/}
+        <div id="utloggingsvarsel" className={cls.className + ` ${setOpenClsName()}`}>
             <ModalWrapper
                 parentSelector={modalMountPoint}
                 onRequestClose={toggleModal}

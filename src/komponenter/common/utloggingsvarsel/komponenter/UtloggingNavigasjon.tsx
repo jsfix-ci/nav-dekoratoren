@@ -1,10 +1,10 @@
 import React, { Dispatch, FunctionComponent, SetStateAction } from 'react';
-import Minus from '../../../ikoner/varsler/Minus';
-import Close from '../../../ikoner/varsler/Close';
-import BEMHelper from '../../../utils/bem';
+import Minus from '../../../../ikoner/varsler/Minus';
+import Close from '../../../../ikoner/varsler/Close';
+import BEMHelper from '../../../../utils/bem';
 import { useSelector } from 'react-redux';
-import { getLoginUrl } from '../../../utils/login';
-import { AppState } from '../../../store/reducers';
+import { getLoginUrl } from '../../../../utils/login';
+import { AppState } from '../../../../store/reducers';
 import { doc } from 'prettier';
 
 interface Props {

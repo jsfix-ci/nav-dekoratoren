@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { getCurrentTimeStamp, timeStampIkkeUtgatt } from './timestamp.utils';
+import { getCurrentTimeStamp, timeStampIkkeUtgatt } from '../timestamp.utils';
 import TypografiBase from 'nav-frontend-typografi';
 
 export type TypografiTypes =
