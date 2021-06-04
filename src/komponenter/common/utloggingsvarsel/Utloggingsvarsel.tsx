@@ -1,24 +1,23 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import BEMHelper from '../../../utils/bem';
 import ModalWrapper from 'nav-frontend-modal';
-import Veilederpanel from 'nav-frontend-veilederpanel';
-import Veilederen from 'ikoner/varsler/Veiledervarsel';
 import './utloggingsvarsel.less';
 import './utloggingsmodal-transition.less';
-import { getSelvbetjeningIdtoken, parseJwt } from './token.utils';
+import { getSelvbetjeningIdtoken } from './token.utils';
 import { checkTimeStampAndSetTimeStamp } from './timestamp.utils';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import UtloggingNavigasjon from './komponenter/UtloggingNavigasjon';
-import Nedteller from './komponenter/Nedteller';
-import UtloggingsvarselValg from './komponenter/UtloggingsvarselValg';
-import Ekspanderbartvindu from './komponenter/Ekspanderbartvindu';
+import ResizeHandler, { BREAKPOINT, WindowType } from './komponenter/ResizeHandler';
+import { verifyWindowObj } from '../../../utils/Environment';
+import UtloggingsvarselInnhold from './komponenter/UtloggingsvarselInnhold';
 
 const Utloggingsvarsel: FunctionComponent = () => {
     const cls = BEMHelper('utloggingsvarsel');
+    const windowOnMount = () =>
+        verifyWindowObj() && window.innerWidth > BREAKPOINT ? WindowType.DESKTOP : WindowType.MOBILE;
 
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [unitTimeStamp, setUnixTimestamp] = useState<number>(0);
     const [minimized, setMinimized] = useState<boolean>(false);
+    const [windowType, setWindowType] = useState<WindowType>(windowOnMount());
     const setOpenClsName = (): string => (minimized ? '' : 'open');
     const toggleModal = (): void => setModalOpen((prevState) => !prevState);
     const modalMountPoint = (): HTMLElement => document.getElementById('utloggingsvarsel') ?? document.body;
@@ -28,10 +27,11 @@ const Utloggingsvarsel: FunctionComponent = () => {
         ModalWrapper.setAppElement(setModalElement());
 
         const token = getSelvbetjeningIdtoken();
-        if (token) {
+        if (token || true) {
             try {
-                const jwt = parseJwt(token);
-                const timestamp = jwt['exp'];
+                // const jwt = parseJwt(token);
+                // const timestamp = jwt['exp'];
+                const timestamp = 1622814648;
                 if (timestamp) {
                     checkTimeStampAndSetTimeStamp(timestamp, setModalOpen, setUnixTimestamp);
                 }
@@ -43,6 +43,8 @@ const Utloggingsvarsel: FunctionComponent = () => {
 
     return (
         <div id="utloggingsvarsel" className={cls.className + ` ${setOpenClsName()}`}>
+            <button onClick={() => setModalOpen((prevState) => !prevState)}>click me!</button>
+            <ResizeHandler setWindowType={setWindowType} windowType={windowType} />
             <ModalWrapper
                 parentSelector={modalMountPoint}
                 onRequestClose={toggleModal}
@@ -51,25 +53,15 @@ const Utloggingsvarsel: FunctionComponent = () => {
                 className={cls.element('modal')}
                 closeButton={false}
             >
-                <div className={cls.element('container')}>
-                    <UtloggingNavigasjon setModalOpen={setModalOpen} setMinimized={setMinimized} />
-                    <Veilederpanel svg={<Veilederen />} fargetema="advarsel">
-                        <Element className={cls.element('heading')}>Du er i ferd med å bli logget ut</Element>
-                        <Normaltekst>
-                            Dette kan medføre at ulagret data som ikke er sendt inn vil gå tapt. Det anbefales derfor å
-                            lagre informasjonen og logget inn på nytt via ID-porten.
-                        </Normaltekst>
-                    </Veilederpanel>
-                    <UtloggingsvarselValg toggleModal={toggleModal} />
-                    <Nedteller timestamp={unitTimeStamp} typoGrafi="ingress" visTekst={true} />
-                </div>
+                <UtloggingsvarselInnhold
+                    setModalOpen={setModalOpen}
+                    setMinimized={setMinimized}
+                    modalOpen={modalOpen}
+                    minimized={minimized}
+                    timestamp={unitTimeStamp}
+                    windowType={windowType}
+                />
             </ModalWrapper>
-            <Ekspanderbartvindu
-                setMinimized={setMinimized}
-                setModalOpen={setModalOpen}
-                timestamp={unitTimeStamp}
-                typoGrafi="undertekst"
-            />
         </div>
     );
 };

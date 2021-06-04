@@ -13,6 +13,7 @@ const nodeExternals = require('webpack-node-externals');
 const commonConfig = {
     mode: process.env.NODE_ENV || 'development',
     devtool: process.env.NODE_ENV === 'production' ? false : 'source-map',
+    watch: process.env.NODE_ENV !== 'production',
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json', '.jsx'],
         alias: {
@@ -63,7 +64,7 @@ const commonConfig = {
                 exclude: /@babel(?:\/|\\{1,2})runtime/,
                 loader: 'babel-loader',
                 options: {
-                    cacheDirectory: true,
+                    cacheDirectory: false,
                     cacheCompression: !!process.env.NODE_ENV,
                     presets: [['babel-preset-react-app/dependencies', { helpers: true }]],
                     sourceMaps: false,

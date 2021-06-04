@@ -5,32 +5,35 @@ import { useSelector } from 'react-redux';
 import { getLoginUrl } from '../../../../utils/login';
 import { AppState } from '../../../../store/reducers';
 
-interface Props {
-    toggleModal: () => void;
-}
 const stateSelector = (state: AppState) => ({
     arbeidsflate: state.arbeidsflate.status,
     environment: state.environment,
 });
 
-const UtloggingsvarselValg: FunctionComponent<Props> = (props) => {
+const UtloggingsvarselValg: FunctionComponent = () => {
     const cls = BEMHelper('utloggingsvarsel');
-    const { toggleModal } = props;
+
     const { arbeidsflate, environment } = useSelector(stateSelector);
-    const loginUrl = getLoginUrl(environment, arbeidsflate);
+    const { LOGOUT_URL } = environment;
+    const LOGIN_URL = getLoginUrl(environment, arbeidsflate);
 
     return (
         <div className={cls.element('valg')}>
-            <Knapp type="hoved" onClick={toggleModal}>
-                lukk vinduet og fortsett
+            <Knapp
+                type="hoved"
+                onClick={() => {
+                    window.location.href = LOGIN_URL;
+                }}
+            >
+                Logg inn på nytt
             </Knapp>
             <Knapp
                 type="hoved"
                 onClick={() => {
-                    window.location.href = loginUrl;
+                    window.location.href = LOGOUT_URL;
                 }}
             >
-                logg inn på nytt
+                logg ut
             </Knapp>
         </div>
     );

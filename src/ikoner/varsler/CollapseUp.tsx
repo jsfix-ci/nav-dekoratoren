@@ -1,12 +1,20 @@
 import React, { SVGProps } from 'react';
 
 const CollapseUp = (props: SVGProps<SVGSVGElement>) => (
-    <svg {...props} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+        {...props}
+        stroke="currentColor"
+        fill="currentColor"
+        strokeWidth="0"
+        viewBox="0 0 16 16"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <path d="M9 9H4v1h5V9z" />
+        <path d="M7 12V7H6v5h1z" />
         <path
             fillRule="evenodd"
             clipRule="evenodd"
-            d="M12 7l-9 8.571L4.5 17 12 9.857 19.5 17l1.5-1.429L12 7z"
-            fill="#000000"
+            d="M5 3l1-1h7l1 1v7l-1 1h-2v2l-1 1H3l-1-1V6l1-1h2V3zm1 2h4l1 1v4h2V3H6v2zm4 1H3v7h7V6z"
         />
     </svg>
 );

@@ -1,6 +1,6 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { getCurrentTimeStamp, timeStampIkkeUtgatt } from '../timestamp.utils';
+import React, { FunctionComponent } from 'react';
 import TypografiBase from 'nav-frontend-typografi';
+import Clock from '../../../../ikoner/varsler/Clock';
 
 export type TypografiTypes =
     | 'sidetittel'
@@ -15,30 +15,16 @@ export type TypografiTypes =
     | 'undertekst';
 
 interface Props {
-    timestamp: number;
     typoGrafi: TypografiTypes;
-    visTekst?: boolean;
+    tekst: string;
 }
 const Nedteller: FunctionComponent<Props> = (props) => {
-    const [tidIgjen, setTidIgjen] = useState<string>('');
-    const tekst = props.visTekst ? 'Tid igjen av sesjonen:' : '';
-    useEffect(() => {
-        if (timeStampIkkeUtgatt(props.timestamp - getCurrentTimeStamp())) {
-            const timeleft = setInterval(() => {
-                const tokenExpire = props.timestamp - getCurrentTimeStamp();
-                if (timeStampIkkeUtgatt(getCurrentTimeStamp() - props.timestamp + 1)) {
-                    clearInterval(timeleft);
-                }
-                const min = Math.floor(tokenExpire / 60);
-                const sek = Math.floor(tokenExpire % 60);
-                setTidIgjen(`${tekst} 00t:${min}m:${sek}s`);
-            }, 1000);
-        }
-    }, [props.timestamp]);
-
+    const { tekst } = props;
     return (
-        <div>
-            <TypografiBase type={props.typoGrafi}>{tidIgjen}</TypografiBase>
+        <div className="utloggingsvarsel__timer">
+            <Clock width="1.125rem" height="1.125rem" />
+            <TypografiBase type={props.typoGrafi}>{tekst}</TypografiBase>
+            {/*<TypografiBase type={props.typoGrafi}>Du blir automatisk logget ut om 3 minutter</TypografiBase>*/}
         </div>
     );
 };
