@@ -23,7 +23,7 @@ const UtloggingsvarselInnhold: FunctionComponent<Props> = (props) => {
     const [tid, setTid] = useState<string>('0 minutter');
     const [vistSistePaminnelse, setVistSistePaminnelse] = useState<boolean>(false);
     const [overskrift, setOverskrift] = useState<string>('Du blir snart logget ut');
-    const { setModalOpen, setMinimized, modalOpen, minimized, timestamp, windowType } = props;
+    const { setModalOpen, setMinimized, modalOpen, minimized, timestamp } = props;
     const [interval, setInterval] = useState<boolean>(timeStampIkkeUtgatt(props.timestamp - getCurrentTimeStamp()));
     const cls = BEMHelper('utloggingsvarsel');
 
@@ -61,7 +61,7 @@ const UtloggingsvarselInnhold: FunctionComponent<Props> = (props) => {
                 minimized={minimized}
                 typoGrafi="normaltekst"
                 tid={tid}
-                visFullTekst={windowType === WindowType.DESKTOP}
+                visFullTekst={true}
             />
             <div className={cls.element('main-wrapper')}>
                 <Header />
