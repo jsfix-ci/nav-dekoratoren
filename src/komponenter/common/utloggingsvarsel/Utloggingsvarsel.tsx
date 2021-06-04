@@ -41,10 +41,11 @@ const Utloggingsvarsel: FunctionComponent = () => {
         }
     }, []);
 
+    ResizeHandler({ setWindowType, windowType });
+
     return (
         <div id="utloggingsvarsel" className={cls.className + ` ${setOpenClsName()}`}>
             <button onClick={() => setModalOpen((prevState) => !prevState)}>click me!</button>
-            <ResizeHandler setWindowType={setWindowType} windowType={windowType} />
             <ModalWrapper
                 parentSelector={modalMountPoint}
                 onRequestClose={toggleModal}

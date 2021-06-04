@@ -1,4 +1,4 @@
-import React, { Dispatch, FunctionComponent, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { verifyWindowObj } from '../../../../utils/Environment';
 
 export const BREAKPOINT = 768;
@@ -13,8 +13,9 @@ interface Props {
     windowType: WindowType;
 }
 
-const ResizeHandler: FunctionComponent<Props> = (props) => {
+const ResizeHandler = (props: Props) => {
     const { windowType, setWindowType } = props;
+
     useEffect(() => {
         const resize = () => {
             if (verifyWindowObj() && window.innerWidth > BREAKPOINT && windowType === WindowType.MOBILE) {
@@ -23,10 +24,11 @@ const ResizeHandler: FunctionComponent<Props> = (props) => {
                 setWindowType(WindowType.MOBILE);
             }
         };
+
         window.addEventListener('resize', () => resize());
         window.removeEventListener('resize', () => resize());
     }, [windowType, setWindowType]);
 
-    return <div />;
+    return null;
 };
 export default ResizeHandler;
