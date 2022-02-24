@@ -1,4 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
+import livereload from 'livereload';
+import connectLivereload from 'connect-livereload';
+
 import { createMiddleware } from '@promster/express';
 import { getSummary, getContentType } from '@promster/express';
 import { clientEnv, fiveMinutesInSeconds } from './utils';
@@ -57,6 +60,21 @@ app.use((req, res, next) => {
     res.header('Expires', '-1');
     next();
 });
+
+if (process.env.NODE_ENV === 'development') {
+    console.log('Running in local environment: Setting up LiveReload');
+    const liveReloadServer = livereload.createServer();
+    liveReloadServer.watch(`${__dirname}/build`);
+
+    // ping browser on Express boot, once browser has reconnected and handshaken
+    liveReloadServer.server.once('connection', () => {
+        setTimeout(() => {
+            liveReloadServer.refresh('/');
+        }, 100);
+    });
+
+    app.use(connectLivereload());
+}
 
 // Metrics
 app.use(
